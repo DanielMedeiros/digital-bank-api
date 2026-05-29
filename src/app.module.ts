@@ -3,6 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 
 import { LoggerModule } from 'nestjs-pino';
 
+import { UsersModule } from './modules/users/users.module';
+
 import { PrismaModule } from './shared/database/prisma/prisma.module';
 
 @Module({
@@ -23,6 +25,8 @@ import { PrismaModule } from './shared/database/prisma/prisma.module';
     }),
 
     PrismaModule,
+
+    UsersModule,
   ],
 })
 export class AppModule {}
