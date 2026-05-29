@@ -1,14 +1,12 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-
 import * as bcrypt from 'bcrypt';
-
 import { PrismaService } from '@/shared/database/prisma/prisma.service';
-
 import { CreateUserDto } from './dto/create-user.dto';
+import { generateAccountNumber } from '@/shared/utils/generate-account-number';
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(data: CreateUserDto) {
     const userAlreadyExists = await this.prisma.user.findUnique({
@@ -28,6 +26,16 @@ export class UsersService {
         name: data.name,
         email: data.email,
         password: hashedPassword,
+
+        account: {
+          create: {
+            accountNumber: generateAccountNumber(),
+          },
+        },
+      },
+
+      include: {
+        account: true,
       },
     });
 
@@ -35,6 +43,12 @@ export class UsersService {
       id: user.id,
       name: user.name,
       email: user.email,
+
+      account: {
+        accountNumber: user.account?.accountNumber,
+        balance: user.account?.balance,
+      },
+
       createdAt: user.createdAt,
     };
   }
