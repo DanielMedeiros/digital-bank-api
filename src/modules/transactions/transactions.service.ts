@@ -16,13 +16,28 @@ export class TransactionsService {
     userId: string,
     destinationAccountNumber: string,
     amount: number,
+    idempotencyKey: string,
   ) {
-    return this.prisma.$transaction(async (tx) => {
+    const transaction = await this.prisma.$transaction(async (tx) => {
       const originAccount = await tx.account.findUnique({
         where: {
           userId,
         },
       });
+
+      if (!idempotencyKey) {
+        throw new BadRequestException('Idempotency-Key header is required');
+      }
+
+      const existingKey = await this.prisma.idempotencyKey.findUnique({
+        where: {
+          key: idempotencyKey,
+        },
+      });
+
+      if (existingKey) {
+        return existingKey.response;
+      }
 
       if (!originAccount) {
         throw new NotFoundException('Origin account not found');
@@ -80,7 +95,25 @@ export class TransactionsService {
         },
       });
 
+      await tx.idempotencyKey.create({
+        data: {
+          key: idempotencyKey,
+          response: transaction as any,
+        },
+      });
+
       return transaction;
     });
+
+    const transactionData = transaction as {
+      id: string;
+      amount: Prisma.Decimal;
+    };
+
+    return {
+      message: 'Transfer completed successfully',
+      transactionId: transactionData.id,
+      amount: Number(transactionData.amount).toFixed(2),
+    };
   }
 }

@@ -1,5 +1,5 @@
-export function generateAccountNumber() {
-  const random = Math.floor(100000 + Math.random() * 900000);
+import { randomUUID } from 'crypto';
 
-  return `260-${random}`;
+export function generateAccountNumber() {
+  return randomUUID().slice(0, 8);
 }
