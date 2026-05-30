@@ -4,13 +4,14 @@ import { AuthModule } from './modules/auth/auth.module';
 import { LoggerModule } from 'nestjs-pino';
 import { AccountsModule } from './modules/accounts/accounts.module';
 import { UsersModule } from './modules/users/users.module';
-
+import { TransactionsModule } from './modules/transactions/transactions.module';
 import { PrismaModule } from './shared/database/prisma/prisma.module';
 
 @Module({
   imports: [
     AuthModule,
     AccountsModule,
+    TransactionsModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
