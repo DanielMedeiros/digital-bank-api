@@ -1,99 +1,420 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Digital Bank API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API de Conta Digital inspirada em arquiteturas modernas de fintechs, desenvolvida com NestJS, TypeScript, PostgreSQL, Prisma e Docker.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+O objetivo deste projeto é simular o núcleo de um banco digital, implementando funcionalidades reais como autenticação JWT, contas bancárias, depósitos, saques, transferências entre contas, histórico de transações e mecanismos de consistência financeira.
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+# Arquitetura
 
-## Project setup
+Tecnologias utilizadas:
+
+- Node.js
+- TypeScript
+- NestJS
+- PostgreSQL
+- Prisma ORM
+- Docker
+- JWT Authentication
+- Passport
+- Pino Logger
+- Class Validator
+
+Estrutura do projeto:
+
+src/
+├── modules/
+│ ├── auth/
+│ ├── users/
+│ ├── accounts/
+│ └── transactions/
+│
+├── shared/
+│ ├── database/
+│ ├── decorators/
+│ ├── exceptions/
+│ ├── guards/
+│ ├── interceptors/
+│ └── utils/
+
+---
+
+# Roadmap do Projeto
+
+## ✅ Etapa 1 — Criação do Repositório
+
+Objetivos:
+
+- Criar repositório GitHub
+- Definir estratégia de branches
+- Configurar README inicial
+- Configurar licença MIT
+
+Estratégia de branches:
+
+- main
+- develop
+- feature/\*
+
+---
+
+## ✅ Etapa 2 — Setup do NestJS
+
+Objetivos:
+
+- Criar projeto NestJS
+- Configurar TypeScript
+- Configurar ESLint
+- Configurar Prettier
+- Configurar variáveis de ambiente
+
+Dependências principais:
+
+- @nestjs/config
+- class-validator
+- class-transformer
+- bcrypt
+- passport
+- @nestjs/jwt
+
+---
+
+## ✅ Etapa 3 — Docker e PostgreSQL
+
+Objetivos:
+
+- Configurar Docker Compose
+- Subir PostgreSQL localmente
+- Integrar banco de dados ao projeto
+- Inicializar Prisma ORM
+
+Implementações:
+
+- PostgreSQL containerizado
+- Prisma Client
+- Migrations
+- Prisma Module global
+
+---
+
+## ✅ Etapa 4 — Configuração Global da API
+
+Objetivos:
+
+- ValidationPipe global
+- ConfigModule global
+- Logger estruturado
+- Tratamento global de exceções
+- Helmet
+- CORS
+- Versionamento da API
+
+Recursos implementados:
+
+- /api/v1
+- Exception Filter
+- Pino Logger
+- Segurança HTTP
+
+---
+
+## ✅ Etapa 5 — Cadastro de Usuários
+
+Objetivos:
+
+- Criar entidade User
+- Criar módulo Users
+- Cadastro de usuários
+- Hash de senha
+
+Implementações:
+
+Tabela:
+
+User
+
+Campos:
+
+- id
+- name
+- email
+- password
+- createdAt
+- updatedAt
+
+Validações:
+
+- Email único
+- Senha mínima
+- Hash bcrypt
+
+Endpoints:
+
+POST /api/v1/users
+
+---
+
+## ✅ Etapa 6 — Autenticação JWT
+
+Objetivos:
+
+- Login
+- JWT
+- Rotas protegidas
+
+Implementações:
+
+- JwtStrategy
+- JwtAuthGuard
+- Passport JWT
+
+Endpoints:
+
+POST /api/v1/auth/login
+
+GET /api/v1/users/me
+
+---
+
+## ✅ Etapa 7 — Conta Bancária
+
+Objetivos:
+
+- Criar entidade Account
+- Relacionar User ↔ Account
+- Criar conta automaticamente
+
+Tabela:
+
+Account
+
+Campos:
+
+- id
+- accountNumber
+- balance
+- userId
+- createdAt
+- updatedAt
+
+Endpoints:
+
+GET /api/v1/accounts/me
+
+---
+
+## ✅ Etapa 8 — Depósito e Saque
+
+Objetivos:
+
+- Movimentação financeira
+- Atualização de saldo
+- Validação de saldo
+
+Implementações:
+
+- DepositDto
+- WithdrawDto
+
+Endpoints:
+
+POST /api/v1/accounts/deposit
+
+POST /api/v1/accounts/withdraw
+
+Regras:
+
+- Não permite saque sem saldo
+- Valores positivos obrigatórios
+
+---
+
+## ✅ Etapa 9 — Transferências Entre Contas
+
+Objetivos:
+
+- Transferir saldo entre usuários
+- Registrar histórico
+- Garantir consistência
+
+Tabela:
+
+Transaction
+
+Campos:
+
+- id
+- fromAccountId
+- toAccountId
+- amount
+- createdAt
+
+Endpoints:
+
+POST /api/v1/transactions/transfer
+
+Regras:
+
+- Conta destino deve existir
+- Não pode transferir para si mesmo
+- Deve possuir saldo suficiente
+
+Implementação:
+
+- Prisma Transaction ($transaction)
+- Rollback automático
+
+---
+
+## ✅ Etapa 10 — Idempotência e Consistência
+
+Objetivos:
+
+- Evitar transferências duplicadas
+- Garantir consistência financeira
+- Preparar sistema para cenários concorrentes
+
+Tabela:
+
+IdempotencyKey
+
+Campos:
+
+- id
+- key
+- response
+- createdAt
+
+Implementações:
+
+- Header Idempotency-Key
+- Reutilização de resposta anterior
+- Bloqueio de processamento duplicado
+
+Exemplo:
+
+Idempotency-Key: abc-123
+
+Benefícios:
+
+- Segurança financeira
+- Prevenção de duplicidade
+- Melhor experiência para clientes
+
+---
+
+# Funcionalidades Implementadas
+
+- Cadastro de usuários
+- Login JWT
+- Consulta de perfil
+- Conta bancária automática
+- Consulta de saldo
+- Depósito
+- Saque
+- Transferência
+- Histórico de transações
+- Idempotência
+- Tratamento global de erros
+- Logs estruturados
+
+---
+
+# Project setup
 
 ```bash
-$ npm install
+npm install
 ```
 
-## Compile and run the project
+---
+
+# Compile and run the project
+
+Development
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm run start:dev
 ```
 
-## Run tests
+Production
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run build
+npm run start:prod
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+# Run tests
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Unit tests
 
 ```bash
-$ npm install -g mau
-$ mau deploy
+npm run test
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Coverage
 
-## Resources
+```bash
+npm run test:cov
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+E2E tests
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```bash
+npm run test:e2e
+```
 
-## Support
+---
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+# Deployment
 
-## Stay in touch
+Em construção.
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Planejamento:
 
-## License
+- Docker
+- GitHub Actions
+- Railway
+- Render
+- AWS
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+---
+
+# Resources
+
+Documentações úteis:
+
+- NestJS
+- Prisma
+- PostgreSQL
+- Docker
+- JWT
+- Passport
+
+---
+
+# Support
+
+Caso encontre algum problema:
+
+1. Abra uma Issue
+2. Documente os passos para reproduzir
+3. Informe logs e mensagens de erro
+
+---
+
+# Stay in touch
+
+LinkedIn:
+(adicionar perfil)
+
+GitHub:
+(adicionar perfil)
+
+---
+
+# License
+
+MIT License
