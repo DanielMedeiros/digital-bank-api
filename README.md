@@ -1,75 +1,130 @@
 # Digital Bank API
 
-API de Conta Digital inspirada em arquiteturas modernas de fintechs, desenvolvida com NestJS, TypeScript, PostgreSQL, Prisma e Docker.
+![NestJS](https://img.shields.io/badge/NestJS-Framework-red)
+![TypeScript](https://img.shields.io/badge/TypeScript-Language-blue)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-336791)
+![Prisma](https://img.shields.io/badge/Prisma-ORM-2D3748)
+![Docker](https://img.shields.io/badge/Docker-Containerization-2496ED)
+![JWT](https://img.shields.io/badge/JWT-Authentication-orange)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-O objetivo deste projeto é simular o núcleo de um banco digital, implementando funcionalidades reais como autenticação JWT, contas bancárias, depósitos, saques, transferências entre contas, histórico de transações e mecanismos de consistência financeira.
+A modern Digital Banking API built with NestJS, TypeScript, PostgreSQL, Prisma, and Docker.
+
+This project simulates the backend core of a digital bank, implementing real-world financial features such as user registration, JWT authentication, bank accounts, deposits, withdrawals, transfers, transaction tracking, and idempotency protection.
+
+The goal is to build a portfolio project that demonstrates backend engineering practices commonly found in banks, fintechs, and large-scale financial systems.
 
 ---
 
-# Arquitetura
+# Overview
 
-Tecnologias utilizadas:
+This API was designed following modern backend development principles:
 
-- Node.js
-- TypeScript
-- NestJS
-- PostgreSQL
-- Prisma ORM
-- Docker
+- Clean modular architecture
+- RESTful APIs
 - JWT Authentication
-- Passport
-- Pino Logger
-- Class Validator
+- PostgreSQL database
+- Prisma ORM
+- Dockerized environment
+- Financial transaction consistency
+- Idempotent operations
+- Structured logging
+- Global exception handling
 
-Estrutura do projeto:
+---
 
+# Architecture
+
+```text
 src/
 ├── modules/
-│ ├── auth/
-│ ├── users/
-│ ├── accounts/
-│ └── transactions/
+│   ├── auth/
+│   ├── users/
+│   ├── accounts/
+│   └── transactions/
 │
 ├── shared/
-│ ├── database/
-│ ├── decorators/
-│ ├── exceptions/
-│ ├── guards/
-│ ├── interceptors/
-│ └── utils/
+│   ├── database/
+│   ├── decorators/
+│   ├── exceptions/
+│   ├── guards/
+│   ├── interceptors/
+│   └── utils/
+│
+├── app.module.ts
+├── main.ts
+```
 
 ---
 
-# Roadmap do Projeto
+# Tech Stack
 
-## ✅ Etapa 1 — Criação do Repositório
+### Backend
 
-Objetivos:
+- NestJS
+- Node.js
+- TypeScript
 
-- Criar repositório GitHub
-- Definir estratégia de branches
-- Configurar README inicial
-- Configurar licença MIT
+### Database
 
-Estratégia de branches:
+- PostgreSQL
+- Prisma ORM
 
-- main
-- develop
-- feature/\*
+### Authentication
+
+- JWT
+- Passport
+
+### Infrastructure
+
+- Docker
+- Docker Compose
+
+### Validation
+
+- Class Validator
+- Class Transformer
+
+### Logging
+
+- Pino Logger
 
 ---
 
-## ✅ Etapa 2 — Setup do NestJS
+# Project Roadmap
 
-Objetivos:
+---
 
-- Criar projeto NestJS
-- Configurar TypeScript
-- Configurar ESLint
-- Configurar Prettier
-- Configurar variáveis de ambiente
+## ✅ Phase 1 — Repository Setup
 
-Dependências principais:
+### Goals
+
+- Create GitHub repository
+- Configure Git workflow
+- Create initial README
+- Configure MIT License
+
+### Branch Strategy
+
+```text
+main
+develop
+feature/*
+```
+
+---
+
+## ✅ Phase 2 — NestJS Setup
+
+### Goals
+
+- Create NestJS application
+- Configure TypeScript
+- Configure ESLint
+- Configure Prettier
+- Configure environment variables
+
+### Main Dependencies
 
 - @nestjs/config
 - class-validator
@@ -80,248 +135,363 @@ Dependências principais:
 
 ---
 
-## ✅ Etapa 3 — Docker e PostgreSQL
+## ✅ Phase 3 — Docker & PostgreSQL
 
-Objetivos:
+### Goals
 
-- Configurar Docker Compose
-- Subir PostgreSQL localmente
-- Integrar banco de dados ao projeto
-- Inicializar Prisma ORM
+- Configure Docker Compose
+- Create PostgreSQL container
+- Configure Prisma
+- Configure database connection
 
-Implementações:
+### Deliverables
 
-- PostgreSQL containerizado
+- PostgreSQL containerized
 - Prisma Client
-- Migrations
-- Prisma Module global
+- Prisma Module
+- Initial migrations
 
 ---
 
-## ✅ Etapa 4 — Configuração Global da API
+## ✅ Phase 4 — API Foundation
 
-Objetivos:
+### Goals
 
-- ValidationPipe global
-- ConfigModule global
-- Logger estruturado
-- Tratamento global de exceções
+- Global ValidationPipe
+- Global Exception Filter
+- Structured Logging
+- Security Configuration
+- API Versioning
+
+### Deliverables
+
+- API versioning
+- Pino Logger
 - Helmet
 - CORS
-- Versionamento da API
+- Global exception handling
 
-Recursos implementados:
+### API Prefix
 
-- /api/v1
-- Exception Filter
-- Pino Logger
-- Segurança HTTP
+```text
+/api/v1
+```
 
 ---
 
-## ✅ Etapa 5 — Cadastro de Usuários
+## ✅ Phase 5 — User Registration
 
-Objetivos:
+### Goals
 
-- Criar entidade User
-- Criar módulo Users
-- Cadastro de usuários
-- Hash de senha
+- Create User entity
+- User registration endpoint
+- Password hashing
+- Email uniqueness validation
 
-Implementações:
+### Database Entity
 
-Tabela:
+#### User
 
-User
+| Field     | Type     |
+| --------- | -------- |
+| id        | UUID     |
+| name      | String   |
+| email     | String   |
+| password  | String   |
+| createdAt | DateTime |
+| updatedAt | DateTime |
 
-Campos:
+### Features
 
-- id
-- name
-- email
-- password
-- createdAt
-- updatedAt
+- Email uniqueness validation
+- Password hashing with bcrypt
 
-Validações:
+### Endpoint
 
-- Email único
-- Senha mínima
-- Hash bcrypt
-
-Endpoints:
-
+```http
 POST /api/v1/users
+```
 
 ---
 
-## ✅ Etapa 6 — Autenticação JWT
+## ✅ Phase 6 — JWT Authentication
 
-Objetivos:
+### Goals
 
-- Login
-- JWT
-- Rotas protegidas
+- User login
+- JWT authentication
+- Protected routes
 
-Implementações:
+### Implementations
 
 - JwtStrategy
 - JwtAuthGuard
 - Passport JWT
 
-Endpoints:
+### Endpoints
 
+```http
 POST /api/v1/auth/login
 
 GET /api/v1/users/me
+```
 
 ---
 
-## ✅ Etapa 7 — Conta Bancária
+## ✅ Phase 7 — Bank Accounts
 
-Objetivos:
+### Goals
 
-- Criar entidade Account
-- Relacionar User ↔ Account
-- Criar conta automaticamente
+- Create Account entity
+- Automatically create account when user registers
+- Associate User and Account
 
-Tabela:
+### Database Entity
 
-Account
+#### Account
 
-Campos:
+| Field         | Type     |
+| ------------- | -------- |
+| id            | UUID     |
+| accountNumber | String   |
+| balance       | Decimal  |
+| userId        | UUID     |
+| createdAt     | DateTime |
+| updatedAt     | DateTime |
 
-- id
-- accountNumber
-- balance
-- userId
-- createdAt
-- updatedAt
+### Features
 
-Endpoints:
+- Automatic account creation
+- Initial balance set to zero
 
+### Endpoint
+
+```http
 GET /api/v1/accounts/me
+```
 
 ---
 
-## ✅ Etapa 8 — Depósito e Saque
+## ✅ Phase 8 — Deposits & Withdrawals
 
-Objetivos:
+### Goals
 
-- Movimentação financeira
-- Atualização de saldo
-- Validação de saldo
+- Deposit money
+- Withdraw money
+- Balance validation
 
-Implementações:
+### Features
 
-- DepositDto
-- WithdrawDto
+- Positive value validation
+- Insufficient balance protection
 
-Endpoints:
+### Endpoints
+
+```http
+POST /api/v1/accounts/deposit
+
+POST /api/v1/accounts/withdraw
+```
+
+### Business Rules
+
+- Withdrawals cannot exceed available balance
+- Amount must be greater than zero
+
+---
+
+## ✅ Phase 9 — Account Transfers
+
+### Goals
+
+- Transfer money between accounts
+- Register transfer history
+- Guarantee transactional consistency
+
+### Database Entity
+
+#### Transaction
+
+| Field         | Type     |
+| ------------- | -------- |
+| id            | UUID     |
+| fromAccountId | UUID     |
+| toAccountId   | UUID     |
+| amount        | Decimal  |
+| createdAt     | DateTime |
+
+### Features
+
+- Atomic transactions
+- Automatic rollback
+- Balance validation
+- Destination account validation
+
+### Endpoint
+
+```http
+POST /api/v1/transactions/transfer
+```
+
+### Business Rules
+
+- Destination account must exist
+- Cannot transfer to the same account
+- Must have sufficient balance
+
+### Technical Implementation
+
+```typescript
+prisma.$transaction();
+```
+
+---
+
+## ✅ Phase 10 — Idempotency & Financial Consistency
+
+### Goals
+
+- Prevent duplicated transfers
+- Guarantee request consistency
+- Improve financial reliability
+
+### Database Entity
+
+#### IdempotencyKey
+
+| Field     | Type     |
+| --------- | -------- |
+| id        | UUID     |
+| key       | String   |
+| response  | JSON     |
+| createdAt | DateTime |
+
+### Features
+
+- Idempotency-Key header support
+- Reuse previous responses
+- Prevent duplicate transaction processing
+
+### Example
+
+```http
+Idempotency-Key: abc-123
+```
+
+### Benefits
+
+- Financial safety
+- Duplicate protection
+- Better user experience
+
+---
+
+# Banking Features
+
+Implemented features:
+
+- User Registration
+- JWT Authentication
+- Password Hashing
+- Automatic Bank Account Creation
+- Balance Management
+- Deposits
+- Withdrawals
+- Account Transfers
+- Transaction Recording
+- Idempotency Protection
+- Global Error Handling
+- Structured Logging
+
+---
+
+# API Endpoints
+
+## Authentication
+
+```http
+POST /api/v1/auth/login
+```
+
+---
+
+## Users
+
+```http
+POST /api/v1/users
+
+GET /api/v1/users/me
+```
+
+---
+
+## Accounts
+
+```http
+GET /api/v1/accounts/me
 
 POST /api/v1/accounts/deposit
 
 POST /api/v1/accounts/withdraw
-
-Regras:
-
-- Não permite saque sem saldo
-- Valores positivos obrigatórios
+```
 
 ---
 
-## ✅ Etapa 9 — Transferências Entre Contas
+## Transactions
 
-Objetivos:
-
-- Transferir saldo entre usuários
-- Registrar histórico
-- Garantir consistência
-
-Tabela:
-
-Transaction
-
-Campos:
-
-- id
-- fromAccountId
-- toAccountId
-- amount
-- createdAt
-
-Endpoints:
-
+```http
 POST /api/v1/transactions/transfer
-
-Regras:
-
-- Conta destino deve existir
-- Não pode transferir para si mesmo
-- Deve possuir saldo suficiente
-
-Implementação:
-
-- Prisma Transaction ($transaction)
-- Rollback automático
+```
 
 ---
 
-## ✅ Etapa 10 — Idempotência e Consistência
+# Database Models
 
-Objetivos:
+Current entities:
 
-- Evitar transferências duplicadas
-- Garantir consistência financeira
-- Preparar sistema para cenários concorrentes
-
-Tabela:
-
+```text
+User
+Account
+Transaction
 IdempotencyKey
+```
 
-Campos:
+Relationships:
 
-- id
-- key
-- response
-- createdAt
+```text
+User 1 ─── 1 Account
 
-Implementações:
+Account 1 ─── N Transactions (Outgoing)
 
-- Header Idempotency-Key
-- Reutilização de resposta anterior
-- Bloqueio de processamento duplicado
-
-Exemplo:
-
-Idempotency-Key: abc-123
-
-Benefícios:
-
-- Segurança financeira
-- Prevenção de duplicidade
-- Melhor experiência para clientes
+Account 1 ─── N Transactions (Incoming)
+```
 
 ---
 
-# Funcionalidades Implementadas
+# Upcoming Features
 
-- Cadastro de usuários
-- Login JWT
-- Consulta de perfil
-- Conta bancária automática
-- Consulta de saldo
-- Depósito
-- Saque
-- Transferência
-- Histórico de transações
-- Idempotência
-- Tratamento global de erros
-- Logs estruturados
+Planned next phases:
+
+- Bank Statement
+- Transaction History
+- Transaction Filtering
+- Swagger Documentation
+- Unit Tests
+- Integration Tests
+- E2E Tests
+- GitHub Actions CI/CD
+- Docker Production Setup
+- AWS Deployment
+- OpenTelemetry
+- Health Checks
+- Metrics Monitoring
+- Observability Dashboard
 
 ---
 
-# Project setup
+# Project Setup
+
+Install dependencies:
 
 ```bash
 npm install
@@ -329,38 +499,53 @@ npm install
 
 ---
 
-# Compile and run the project
+# Environment Variables
 
-Development
+Create a `.env` file:
+
+```env
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/digital_bank"
+
+JWT_SECRET="your-secret-key"
+
+JWT_EXPIRES_IN="1d"
+```
+
+---
+
+# Compile and Run the Project
+
+### Development
 
 ```bash
 npm run start:dev
 ```
 
-Production
+### Production
 
 ```bash
 npm run build
+
 npm run start:prod
 ```
 
 ---
 
-# Run tests
+# Run Tests
 
-Unit tests
+### Unit Tests
 
 ```bash
 npm run test
 ```
 
-Coverage
+### Coverage
 
 ```bash
 npm run test:cov
 ```
 
-E2E tests
+### E2E Tests
 
 ```bash
 npm run test:e2e
@@ -370,51 +555,67 @@ npm run test:e2e
 
 # Deployment
 
-Em construção.
+Deployment section will be completed in future phases.
 
-Planejamento:
+Target platforms:
 
-- Docker
-- GitHub Actions
 - Railway
 - Render
 - AWS
+- Docker Containers
+- Kubernetes (future)
 
 ---
 
 # Resources
 
-Documentações úteis:
+Official documentation:
 
 - NestJS
 - Prisma
 - PostgreSQL
 - Docker
-- JWT
 - Passport
+- JWT
+
+Useful references:
+
+- Clean Architecture
+- Domain-Driven Design
+- OWASP API Security
+- Twelve-Factor App
 
 ---
 
 # Support
 
-Caso encontre algum problema:
+If you find a bug or have a suggestion:
 
-1. Abra uma Issue
-2. Documente os passos para reproduzir
-3. Informe logs e mensagens de erro
+1. Open an Issue
+2. Describe the problem
+3. Include reproduction steps
+4. Attach logs if necessary
 
 ---
 
-# Stay in touch
+# Stay in Touch
 
-LinkedIn:
-(adicionar perfil)
+### LinkedIn
 
-GitHub:
-(adicionar perfil)
+Add your LinkedIn profile here.
+
+### GitHub
+
+Add your GitHub profile here.
 
 ---
 
 # License
 
-MIT License
+This project is licensed under the MIT License.
+
+Feel free to use, study, and improve it.
+
+---
+
+Built with ❤️ using NestJS, PostgreSQL, Prisma, and TypeScript.
