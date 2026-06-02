@@ -4,8 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 
-import { Prisma } from '@prisma/client';
-
+import { Prisma, TransactionType } from '@prisma/client';
 import { PrismaService } from '@/shared/database/prisma/prisma.service';
 
 @Injectable()
@@ -18,26 +17,26 @@ export class TransactionsService {
     amount: number,
     idempotencyKey: string,
   ) {
+    if (!idempotencyKey) {
+      throw new BadRequestException('Idempotency-Key header is required');
+    }
+
+    const existingKey = await this.prisma.idempotencyKey.findUnique({
+      where: {
+        key: idempotencyKey,
+      },
+    });
+
+    if (existingKey) {
+      return existingKey.response;
+    }
+
     const transaction = await this.prisma.$transaction(async (tx) => {
       const originAccount = await tx.account.findUnique({
         where: {
           userId,
         },
       });
-
-      if (!idempotencyKey) {
-        throw new BadRequestException('Idempotency-Key header is required');
-      }
-
-      const existingKey = await this.prisma.idempotencyKey.findUnique({
-        where: {
-          key: idempotencyKey,
-        },
-      });
-
-      if (existingKey) {
-        return existingKey.response;
-      }
 
       if (!originAccount) {
         throw new NotFoundException('Origin account not found');
@@ -87,10 +86,14 @@ export class TransactionsService {
         },
       });
 
-      const transaction = await tx.transaction.create({
+      const transactionRecord = await tx.transaction.create({
         data: {
+          type: TransactionType.TRANSFER,
+
           fromAccountId: originAccount.id,
+
           toAccountId: destinationAccount.id,
+
           amount: new Prisma.Decimal(amount),
         },
       });
@@ -98,11 +101,11 @@ export class TransactionsService {
       await tx.idempotencyKey.create({
         data: {
           key: idempotencyKey,
-          response: transaction as any,
+          response: transactionRecord as any,
         },
       });
 
-      return transaction;
+      return transactionRecord;
     });
 
     const transactionData = transaction as {

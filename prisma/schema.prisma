@@ -42,21 +42,24 @@ model Account {
 }
 
 model Transaction {
-  id                String   @id @default(uuid())
+  id            String          @id @default(uuid())
 
-  fromAccountId     String
-  toAccountId       String
+  type          TransactionType @default(DEPOSIT)
 
-  amount            Decimal  @db.Decimal(14,2)
+  fromAccountId String?
+  toAccountId   String?
 
-  createdAt         DateTime @default(now())
+  amount        Decimal         @db.Decimal(14,2)
 
-  fromAccount       Account  @relation("fromAccount", fields: [fromAccountId], references: [id])
-  toAccount         Account  @relation("toAccount", fields: [toAccountId], references: [id])
+  createdAt     DateTime        @default(now())
 
+  fromAccount   Account? @relation(name: "fromAccount", fields: [fromAccountId], references: [id], onDelete: Cascade)
+  toAccount     Account? @relation(name: "toAccount", fields: [toAccountId], references: [id], onDelete: Cascade)
+
+  @@index([fromAccountId])
+  @@index([toAccountId])
   @@map("transactions")
 }
-
 model IdempotencyKey {
   id          String   @id @default(uuid())
 
@@ -67,4 +70,10 @@ model IdempotencyKey {
   createdAt   DateTime @default(now())
 
   @@map("idempotency_keys")
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAW
+  TRANSFER
 }

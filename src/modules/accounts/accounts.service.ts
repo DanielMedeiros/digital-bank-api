@@ -3,8 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-
-import { Prisma } from '@prisma/client';
+import { Prisma, TransactionType } from '@prisma/client';
 import { PrismaService } from '@/shared/database/prisma/prisma.service';
 
 @Injectable()
@@ -48,6 +47,16 @@ export class AccountsService {
       },
     });
 
+    await this.prisma.transaction.create({
+      data: {
+        type: TransactionType.DEPOSIT,
+
+        toAccountId: account.id,
+
+        amount: new Prisma.Decimal(amount),
+      },
+    });
+
     return updatedAccount;
   }
 
@@ -77,6 +86,16 @@ export class AccountsService {
         balance: {
           decrement: new Prisma.Decimal(amount),
         },
+      },
+    });
+
+    await this.prisma.transaction.create({
+      data: {
+        type: TransactionType.WITHDRAW,
+
+        fromAccountId: account.id,
+
+        amount: new Prisma.Decimal(amount),
       },
     });
 
