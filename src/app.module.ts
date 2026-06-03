@@ -6,11 +6,13 @@ import { AccountsModule } from './modules/accounts/accounts.module';
 import { UsersModule } from './modules/users/users.module';
 import { TransactionsModule } from './modules/transactions/transactions.module';
 import { PrismaModule } from './shared/database/prisma/prisma.module';
+import { StatementsModule } from './modules/statements/statements.module';
 
 @Module({
   imports: [
     AuthModule,
     AccountsModule,
+    StatementsModule,
     TransactionsModule,
     ConfigModule.forRoot({
       isGlobal: true,

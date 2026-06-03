@@ -445,6 +445,30 @@ POST /api/v1/transactions/transfer
 
 ---
 
+## ✅ Phase 11 — Bank Statement & Transaction History
+
+### Goals
+
+- Account statement
+- Transaction history
+- Date filtering
+- Incoming and outgoing operations
+
+### Endpoint
+
+GET /api/v1/statements
+
+GET /api/v1/statements?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
+
+### Features
+
+- Full transaction history
+- Ordered by date
+- Date range filtering
+- Deposit, Withdraw and Transfer support
+
+---
+
 # Database Models
 
 Current entities:
