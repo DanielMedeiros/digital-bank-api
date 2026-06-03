@@ -469,6 +469,25 @@ GET /api/v1/statements?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
 
 ---
 
+## ✅ Phase 12 — Swagger / OpenAPI Documentation
+
+### Goals
+
+- OpenAPI Documentation
+- Swagger UI
+- JWT Authorization Support
+
+### Endpoint
+
+/api/docs
+
+### Features
+
+- Interactive API documentation
+- JWT Authentication
+- Request examples
+- DTO documentation
+
 # Database Models
 
 Current entities:

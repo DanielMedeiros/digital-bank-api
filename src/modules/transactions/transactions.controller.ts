@@ -7,17 +7,19 @@ import {
   Version,
 } from '@nestjs/common';
 import { IdempotencyKey } from '@/shared/decorators/dempotency-key.decorator';
-
 import { JwtAuthGuard } from '@/modules/auth/guards/jwt-auth.guard';
-
 import { TransferDto } from './dto/transfer.dto';
-
 import { TransactionsService } from './transactions.service';
-
+import { ApiBearerAuth, ApiTags, ApiOperation } from '@nestjs/swagger';
+@ApiTags('Transactions')
+@ApiBearerAuth()
 @Controller('transactions')
 export class TransactionsController {
   constructor(private readonly transactionsService: TransactionsService) {}
 
+  @ApiOperation({
+    summary: 'Transfer money between accounts',
+  })
   @Post('transfer')
   @Version('1')
   @UseGuards(JwtAuthGuard)

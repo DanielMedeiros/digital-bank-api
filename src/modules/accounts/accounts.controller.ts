@@ -7,20 +7,23 @@ import {
   UseGuards,
   Version,
 } from '@nestjs/common';
-
 import { JwtAuthGuard } from '@/modules/auth/guards/jwt-auth.guard';
-
 import { AccountsService } from './accounts.service';
-
 import { DepositDto } from './dto/deposit.dto';
 import { WithdrawDto } from './dto/withdraw.dto';
+import { ApiBearerAuth, ApiTags, ApiOperation } from '@nestjs/swagger';
 
+@ApiTags('Accounts')
+@ApiBearerAuth()
 @Controller('accounts')
 export class AccountsController {
   constructor(private readonly accountsService: AccountsService) {}
 
   @Version('1')
   @UseGuards(JwtAuthGuard)
+  @ApiOperation({
+    summary: 'Get account details',
+  })
   @Get('me')
   async me(@Req() req: any) {
     return this.accountsService.findByUserId(req.user.userId);
@@ -28,6 +31,9 @@ export class AccountsController {
 
   @Version('1')
   @UseGuards(JwtAuthGuard)
+  @ApiOperation({
+    summary: 'Deposit money',
+  })
   @Post('deposit')
   async deposit(@Req() req: any, @Body() body: DepositDto) {
     return this.accountsService.deposit(req.user.userId, body.amount);
@@ -35,6 +41,9 @@ export class AccountsController {
 
   @Version('1')
   @UseGuards(JwtAuthGuard)
+  @ApiOperation({
+    summary: 'Withdraw money',
+  })
   @Post('withdraw')
   async withdraw(@Req() req: any, @Body() body: WithdrawDto) {
     return this.accountsService.withdraw(req.user.userId, body.amount);
