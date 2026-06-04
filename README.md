@@ -6,13 +6,35 @@
 ![Prisma](https://img.shields.io/badge/Prisma-ORM-2D3748)
 ![Docker](https://img.shields.io/badge/Docker-Containerization-2496ED)
 ![JWT](https://img.shields.io/badge/JWT-Authentication-orange)
-![License](https://img.shields.io/badge/License-MIT-green)
+![Swagger](https://img.shields.io/badge/Swagger-OpenAPI-green)
+![License](https://img.shields.io/badge/License-MIT-brightgreen)
 
 A modern Digital Banking API built with NestJS, TypeScript, PostgreSQL, Prisma, and Docker.
 
-This project simulates the backend core of a digital bank, implementing real-world financial features such as user registration, JWT authentication, bank accounts, deposits, withdrawals, transfers, transaction tracking, and idempotency protection.
+This project simulates the backend core of a digital bank, implementing real-world financial features such as user registration, JWT authentication, bank accounts, deposits, withdrawals, transfers, transaction tracking, bank statements, and idempotency protection.
 
 The goal is to build a portfolio project that demonstrates backend engineering practices commonly found in banks, fintechs, and large-scale financial systems.
+
+---
+
+# Table of Contents
+
+- Overview
+- Architecture
+- Tech Stack
+- Project Roadmap
+- Banking Features
+- Business Rules
+- Security
+- API Endpoints
+- API Coverage
+- Domain Model
+- Database Models
+- Testing Strategy
+- Upcoming Features
+- Project Setup
+- Deployment
+- Resources
 
 ---
 
@@ -30,6 +52,7 @@ This API was designed following modern backend development principles:
 - Idempotent operations
 - Structured logging
 - Global exception handling
+- OpenAPI Documentation
 
 ---
 
@@ -41,7 +64,8 @@ src/
 │   ├── auth/
 │   ├── users/
 │   ├── accounts/
-│   └── transactions/
+│   ├── transactions/
+│   └── statements/
 │
 ├── shared/
 │   ├── database/
@@ -52,48 +76,64 @@ src/
 │   └── utils/
 │
 ├── app.module.ts
-├── main.ts
+└── main.ts
+
+test/
+├── unit/
+├── integration/
+├── e2e/
+├── mocks/
+├── fixtures/
+└── helpers/
 ```
 
 ---
 
 # Tech Stack
 
-### Backend
+## Backend
 
 - NestJS
 - Node.js
 - TypeScript
 
-### Database
+## Database
 
 - PostgreSQL
 - Prisma ORM
 
-### Authentication
+## Authentication
 
 - JWT
 - Passport
 
-### Infrastructure
+## Infrastructure
 
 - Docker
 - Docker Compose
 
-### Validation
+## Validation
 
 - Class Validator
 - Class Transformer
 
-### Logging
+## Documentation
+
+- Swagger
+- OpenAPI
+
+## Logging
 
 - Pino Logger
+
+## Testing
+
+- Jest
+- Nest Testing Module
 
 ---
 
 # Project Roadmap
-
----
 
 ## ✅ Phase 1 — Repository Setup
 
@@ -124,15 +164,6 @@ feature/*
 - Configure Prettier
 - Configure environment variables
 
-### Main Dependencies
-
-- @nestjs/config
-- class-validator
-- class-transformer
-- bcrypt
-- passport
-- @nestjs/jwt
-
 ---
 
 ## ✅ Phase 3 — Docker & PostgreSQL
@@ -143,13 +174,6 @@ feature/*
 - Create PostgreSQL container
 - Configure Prisma
 - Configure database connection
-
-### Deliverables
-
-- PostgreSQL containerized
-- Prisma Client
-- Prisma Module
-- Initial migrations
 
 ---
 
@@ -188,30 +212,6 @@ feature/*
 - Password hashing
 - Email uniqueness validation
 
-### Database Entity
-
-#### User
-
-| Field     | Type     |
-| --------- | -------- |
-| id        | UUID     |
-| name      | String   |
-| email     | String   |
-| password  | String   |
-| createdAt | DateTime |
-| updatedAt | DateTime |
-
-### Features
-
-- Email uniqueness validation
-- Password hashing with bcrypt
-
-### Endpoint
-
-```http
-POST /api/v1/users
-```
-
 ---
 
 ## ✅ Phase 6 — JWT Authentication
@@ -228,14 +228,6 @@ POST /api/v1/users
 - JwtAuthGuard
 - Passport JWT
 
-### Endpoints
-
-```http
-POST /api/v1/auth/login
-
-GET /api/v1/users/me
-```
-
 ---
 
 ## ✅ Phase 7 — Bank Accounts
@@ -245,30 +237,6 @@ GET /api/v1/users/me
 - Create Account entity
 - Automatically create account when user registers
 - Associate User and Account
-
-### Database Entity
-
-#### Account
-
-| Field         | Type     |
-| ------------- | -------- |
-| id            | UUID     |
-| accountNumber | String   |
-| balance       | Decimal  |
-| userId        | UUID     |
-| createdAt     | DateTime |
-| updatedAt     | DateTime |
-
-### Features
-
-- Automatic account creation
-- Initial balance set to zero
-
-### Endpoint
-
-```http
-GET /api/v1/accounts/me
-```
 
 ---
 
@@ -285,19 +253,6 @@ GET /api/v1/accounts/me
 - Positive value validation
 - Insufficient balance protection
 
-### Endpoints
-
-```http
-POST /api/v1/accounts/deposit
-
-POST /api/v1/accounts/withdraw
-```
-
-### Business Rules
-
-- Withdrawals cannot exceed available balance
-- Amount must be greater than zero
-
 ---
 
 ## ✅ Phase 9 — Account Transfers
@@ -308,42 +263,12 @@ POST /api/v1/accounts/withdraw
 - Register transfer history
 - Guarantee transactional consistency
 
-### Database Entity
-
-#### Transaction
-
-| Field         | Type     |
-| ------------- | -------- |
-| id            | UUID     |
-| fromAccountId | UUID     |
-| toAccountId   | UUID     |
-| amount        | Decimal  |
-| createdAt     | DateTime |
-
 ### Features
 
 - Atomic transactions
 - Automatic rollback
 - Balance validation
 - Destination account validation
-
-### Endpoint
-
-```http
-POST /api/v1/transactions/transfer
-```
-
-### Business Rules
-
-- Destination account must exist
-- Cannot transfer to the same account
-- Must have sufficient balance
-
-### Technical Implementation
-
-```typescript
-prisma.$transaction();
-```
 
 ---
 
@@ -355,34 +280,105 @@ prisma.$transaction();
 - Guarantee request consistency
 - Improve financial reliability
 
-### Database Entity
+### Features
 
-#### IdempotencyKey
+- Idempotency-Key support
+- Reuse previous responses
+- Prevent duplicate processing
 
-| Field     | Type     |
-| --------- | -------- |
-| id        | UUID     |
-| key       | String   |
-| response  | JSON     |
-| createdAt | DateTime |
+---
+
+## ✅ Phase 10.1 — Transaction Standardization
+
+### Goals
+
+- Standardize all financial operations
+- Create a unified transaction history
+- Prepare the system for bank statements
 
 ### Features
 
-- Idempotency-Key header support
-- Reuse previous responses
-- Prevent duplicate transaction processing
-
-### Example
-
-```http
-Idempotency-Key: abc-123
-```
+- TransactionType enum
+- DEPOSIT transactions
+- WITHDRAW transactions
+- TRANSFER transactions
 
 ### Benefits
 
-- Financial safety
-- Duplicate protection
-- Better user experience
+- Unified transaction history
+- Easier auditing
+- Foundation for statements and reporting
+
+---
+
+## ✅ Phase 11 — Bank Statement & Transaction History
+
+### Goals
+
+- Account statement
+- Transaction history
+- Date filtering
+- Incoming and outgoing operations
+
+### Features
+
+- Full transaction history
+- Ordered by date
+- Date range filtering
+- Deposit, Withdraw and Transfer support
+
+### Endpoints
+
+```http
+GET /api/v1/statements
+
+GET /api/v1/statements?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
+```
+
+---
+
+## ✅ Phase 12 — Swagger / OpenAPI Documentation
+
+### Goals
+
+- OpenAPI Documentation
+- Swagger UI
+- JWT Authorization Support
+
+### Endpoint
+
+```text
+/api/docs
+```
+
+### Features
+
+- Interactive API documentation
+- JWT Authentication
+- Request examples
+- DTO documentation
+
+---
+
+## ✅ Phase 13 — Unit Tests
+
+### Goals
+
+- Validate business rules
+- Improve code reliability
+- Prevent regressions
+
+### Technologies
+
+- Jest
+- NestJS Testing Module
+
+### Covered Services
+
+- AuthService
+- AccountsService
+- TransactionsService
+- StatementsService
 
 ---
 
@@ -397,11 +393,63 @@ Implemented features:
 - Balance Management
 - Deposits
 - Withdrawals
-- Account Transfers
-- Transaction Recording
+- Transfers
+- Transaction History
+- Bank Statements
 - Idempotency Protection
+- OpenAPI Documentation
 - Global Error Handling
 - Structured Logging
+- Unit Tests
+
+---
+
+# Business Rules
+
+## Authentication
+
+- Users authenticate using JWT.
+- Protected endpoints require a valid token.
+
+## Accounts
+
+- Each user owns exactly one bank account.
+- Accounts are automatically created upon registration.
+
+## Deposits
+
+- Amount must be greater than zero.
+
+## Withdrawals
+
+- Amount must be greater than zero.
+- Balance cannot become negative.
+
+## Transfers
+
+- Destination account must exist.
+- Users cannot transfer to their own account.
+- Origin account must have sufficient balance.
+
+## Idempotency
+
+- Transfers support idempotent requests.
+- Repeated requests with the same key return the previous response.
+
+---
+
+# Security
+
+Implemented security mechanisms:
+
+- JWT Authentication
+- Password hashing with bcrypt
+- Route protection with Guards
+- ValidationPipe
+- Helmet
+- CORS
+- Global exception handling
+- Idempotency protection
 
 ---
 
@@ -413,8 +461,6 @@ Implemented features:
 POST /api/v1/auth/login
 ```
 
----
-
 ## Users
 
 ```http
@@ -422,8 +468,6 @@ POST /api/v1/users
 
 GET /api/v1/users/me
 ```
-
----
 
 ## Accounts
 
@@ -435,58 +479,60 @@ POST /api/v1/accounts/deposit
 POST /api/v1/accounts/withdraw
 ```
 
----
-
 ## Transactions
 
 ```http
 POST /api/v1/transactions/transfer
 ```
 
----
+## Statements
 
-## ✅ Phase 11 — Bank Statement & Transaction History
-
-### Goals
-
-- Account statement
-- Transaction history
-- Date filtering
-- Incoming and outgoing operations
-
-### Endpoint
-
+```http
 GET /api/v1/statements
 
 GET /api/v1/statements?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
-
-### Features
-
-- Full transaction history
-- Ordered by date
-- Date range filtering
-- Deposit, Withdraw and Transfer support
+```
 
 ---
 
-## ✅ Phase 12 — Swagger / OpenAPI Documentation
+# API Coverage
 
-### Goals
+| Module                | Status |
+| --------------------- | ------ |
+| Users                 | ✅     |
+| Authentication        | ✅     |
+| Accounts              | ✅     |
+| Transactions          | ✅     |
+| Statements            | ✅     |
+| Swagger Documentation | ✅     |
+| Unit Tests            | ✅     |
+| Integration Tests     | 🚧     |
+| E2E Tests             | 🚧     |
+| CI/CD                 | 🚧     |
+| AWS Deployment        | 🚧     |
 
-- OpenAPI Documentation
-- Swagger UI
-- JWT Authorization Support
+---
 
-### Endpoint
+# Domain Model
 
-/api/docs
+```text
+User
+ │
+ └── Account
+      │
+      ├── Transactions (Outgoing)
+      │
+      └── Transactions (Incoming)
 
-### Features
+Transaction
+ ├── DEPOSIT
+ ├── WITHDRAW
+ └── TRANSFER
 
-- Interactive API documentation
-- JWT Authentication
-- Request examples
-- DTO documentation
+IdempotencyKey
+```
+
+---
 
 # Database Models
 
@@ -509,26 +555,56 @@ Account 1 ─── N Transactions (Outgoing)
 Account 1 ─── N Transactions (Incoming)
 ```
 
+Transaction Types:
+
+```text
+DEPOSIT
+WITHDRAW
+TRANSFER
+```
+
+---
+
+# Testing Strategy
+
+Current coverage:
+
+- Unit Tests
+
+Covered services:
+
+- AuthService
+- AccountsService
+- TransactionsService
+- StatementsService
+
+Planned:
+
+- Integration Tests
+- E2E Tests
+
+Testing tools:
+
+- Jest
+- NestJS Testing Module
+
 ---
 
 # Upcoming Features
 
 Planned next phases:
 
-- Bank Statement
-- Transaction History
-- Transaction Filtering
-- Swagger Documentation
-- Unit Tests
 - Integration Tests
 - E2E Tests
 - GitHub Actions CI/CD
-- Docker Production Setup
-- AWS Deployment
-- OpenTelemetry
 - Health Checks
 - Metrics Monitoring
-- Observability Dashboard
+- OpenTelemetry
+- Docker Production Setup
+- AWS Deployment
+- Clean Architecture Refactoring
+- Event-Driven Architecture
+- Financial Ledger System
 
 ---
 
@@ -558,13 +634,13 @@ JWT_EXPIRES_IN="1d"
 
 # Compile and Run the Project
 
-### Development
+## Development
 
 ```bash
 npm run start:dev
 ```
 
-### Production
+## Production
 
 ```bash
 npm run build
@@ -576,22 +652,22 @@ npm run start:prod
 
 # Run Tests
 
-### Unit Tests
+## Unit Tests
 
 ```bash
 npm run test
 ```
 
-### Coverage
+## Watch Mode
+
+```bash
+npm run test:watch
+```
+
+## Coverage
 
 ```bash
 npm run test:cov
-```
-
-### E2E Tests
-
-```bash
-npm run test:e2e
 ```
 
 ---
@@ -620,6 +696,7 @@ Official documentation:
 - Docker
 - Passport
 - JWT
+- Swagger
 
 Useful references:
 
@@ -627,6 +704,8 @@ Useful references:
 - Domain-Driven Design
 - OWASP API Security
 - Twelve-Factor App
+- OpenAPI Specification
+- Financial Systems Design
 
 ---
 
@@ -661,4 +740,4 @@ Feel free to use, study, and improve it.
 
 ---
 
-Built with ❤️ using NestJS, PostgreSQL, Prisma, and TypeScript.
+Built with ❤️ using NestJS, PostgreSQL, Prisma, TypeScript, and modern backend engineering practices.
