@@ -89,34 +89,28 @@ export class TransactionsService {
       const transactionRecord = await tx.transaction.create({
         data: {
           type: TransactionType.TRANSFER,
-
           fromAccountId: originAccount.id,
-
           toAccountId: destinationAccount.id,
-
           amount: new Prisma.Decimal(amount),
         },
       });
 
+      const responseData = {
+        message: 'Transfer completed successfully',
+        transactionId: transactionRecord.id,
+        amount: Number(transactionRecord.amount).toFixed(2),
+      };
+
       await tx.idempotencyKey.create({
         data: {
           key: idempotencyKey,
-          response: transactionRecord as any,
+          response: responseData as any,
         },
       });
 
-      return transactionRecord;
+      return responseData;
     });
 
-    const transactionData = transaction as {
-      id: string;
-      amount: Prisma.Decimal;
-    };
-
-    return {
-      message: 'Transfer completed successfully',
-      transactionId: transactionData.id,
-      amount: Number(transactionData.amount).toFixed(2),
-    };
+    return transaction;
   }
 }

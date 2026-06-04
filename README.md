@@ -382,6 +382,29 @@ GET /api/v1/statements?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
 
 ---
 
+## ✅ Phase 14 — Integration Tests
+
+### Goals
+
+- Validate complete application flows
+- Verify database integration
+- Test authentication and financial operations
+
+### Technologies
+
+- Jest
+- Supertest
+- PostgreSQL Test Database
+
+### Covered Flows
+
+- Register User → Login
+- Deposit → Balance Validation
+- Transfer → Balance Validation
+- Statement Generation
+
+---
+
 # Banking Features
 
 Implemented features:
