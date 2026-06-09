@@ -1,5 +1,5 @@
 import { INestApplication } from '@nestjs/common';
-import request from 'supertest';
+import * as request from 'supertest';
 import { randomUUID } from 'crypto';
 import { initializeTestApp, cleanDatabase } from '../setup';
 import { PrismaService } from '../../../src/shared/database/prisma/prisma.service';

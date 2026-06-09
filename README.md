@@ -405,6 +405,34 @@ GET /api/v1/statements?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
 
 ---
 
+## ✅ Phase 15 — End-to-End Tests
+
+### Goals
+
+- Validate complete banking flows
+- Simulate real client interactions
+- Ensure application reliability
+
+### Technologies
+
+- Jest
+- Supertest
+- PostgreSQL
+
+### Covered Flows
+
+- Register User
+- Login
+- Deposit
+- Transfer
+- Statement
+
+### Status
+
+Completed
+
+---
+
 # Banking Features
 
 Implemented features:
