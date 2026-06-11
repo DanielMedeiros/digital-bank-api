@@ -1,74 +1,77 @@
 name: CI Pipeline
 
 on:
-  push:
-    branches:
-      - main
-      - develop
+push:
+branches:
+- main
+- develop
 
-  pull_request:
-    branches:
-      - main
-      - develop
+pull_request:
+branches:
+- main
+- develop
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+test:
+runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:16
-
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: digital_bank_test
-
-        ports:
-          - 5432:5432
-
-        options: >-
-          --health-cmd="pg_isready -U postgres"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
+```
+services:
+  postgres:
+    image: postgres:16
 
     env:
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/digital_bank_test
-      # Use GitHub Secret for JWT_SECRET if available, fallback to a test secret
-      JWT_SECRET: ${{ secrets.JWT_SECRET || 'test_secret_for_ci' }}
-      JWT_EXPIRES_IN: 1d
-      NODE_ENV: test # Crucial for test configurations
-      PORT: 3000 # Consistent port for tests
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: digital_bank_test
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    ports:
+      - 5432:5432
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+    options: >-
+      --health-cmd="pg_isready -U postgres"
+      --health-interval=10s
+      --health-timeout=5s
+      --health-retries=5
 
-        with:
-          node-version: 22
-          cache: npm
+env:
+  DATABASE_URL: postgresql://postgres:postgres@localhost:5432/digital_bank_test
+  JWT_SECRET: test_secret_for_ci
+  JWT_EXPIRES_IN: 1d
+  NODE_ENV: test
+  PORT: 3000
 
-      - name: Install Dependencies
-        run: npm ci
+steps:
+  - name: Checkout Repository
+    uses: actions/checkout@v4
 
-      - name: Generate Prisma Client
-        run: npx prisma generate
+  - name: Setup Node.js
+    uses: actions/setup-node@v4
+    with:
+      node-version: 22
+      cache: npm
 
-      - name: Run Migrations
-        run: npx prisma migrate deploy
+  - name: Install Dependencies
+    run: npm ci
 
-      - name: Lint
-        run: npm run lint
+  - name: Generate Prisma Client
+    run: npx prisma generate
 
-      - name: Integration Tests
-        run: npm run test:integration
+  - name: Run Database Migrations
+    run: npx prisma migrate deploy
 
-      - name: E2E Tests
-        run: npm run test:e2e
+  - name: Lint
+    run: npm run lint
 
-      - name: Build Application
-        run: npm run build
+  - name: Run Unit Tests
+    run: npm run test
+
+  - name: Run Integration Tests
+    run: npm run test:integration
+
+  - name: Run E2E Tests
+    run: npm run test:e2e
+
+  - name: Build Application
+    run: npm run build
+```
