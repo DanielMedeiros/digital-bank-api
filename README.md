@@ -1,5 +1,6 @@
 # Digital Bank API
 
+![CI](https://github.com/DanielMedeiros/digital-bank-api/actions/workflows/ci.yml/badge.svg)
 ![NestJS](https://img.shields.io/badge/NestJS-Framework-red)
 ![TypeScript](https://img.shields.io/badge/TypeScript-Language-blue)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-336791)
@@ -433,6 +434,33 @@ Completed
 
 ---
 
+## ✅ Phase 16 — GitHub Actions CI/CD
+
+### Goals
+
+- Automate quality checks
+- Validate code before merging
+- Prevent regressions
+
+### Pipeline
+
+- Install Dependencies
+- Prisma Generate
+- Database Migration
+- Lint
+- Unit Tests
+- Integration Tests
+- E2E Tests
+- Build
+
+### Technologies
+
+- GitHub Actions
+- PostgreSQL
+- Prisma
+
+---
+
 # Banking Features
 
 Implemented features:
@@ -557,8 +585,8 @@ GET /api/v1/statements?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
 | Statements            | ✅     |
 | Swagger Documentation | ✅     |
 | Unit Tests            | ✅     |
-| Integration Tests     | 🚧     |
-| E2E Tests             | 🚧     |
+| Integration Tests     | ✅     |
+| E2E Tests             | ✅     |
 | CI/CD                 | 🚧     |
 | AWS Deployment        | 🚧     |
 
