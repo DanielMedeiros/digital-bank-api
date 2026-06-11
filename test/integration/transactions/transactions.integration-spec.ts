@@ -2,16 +2,13 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { randomUUID } from 'crypto';
 import { initializeTestApp, cleanDatabase } from '../setup';
-import { PrismaService } from '../../../src/shared/database/prisma/prisma.service';
 
 describe('Transactions Integration', () => {
   let app: INestApplication;
-  let prismaService: PrismaService;
 
   beforeAll(async () => {
     const setup = await initializeTestApp();
     app = setup.app;
-    prismaService = setup.prismaService;
   });
 
   beforeEach(async () => {
