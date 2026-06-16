@@ -7,12 +7,14 @@ import { UsersModule } from './modules/users/users.module';
 import { TransactionsModule } from './modules/transactions/transactions.module';
 import { PrismaModule } from './shared/database/prisma/prisma.module';
 import { StatementsModule } from './modules/statements/statements.module';
+import { HealthModule } from './modules/health/health.module';
 
 @Module({
   imports: [
     AuthModule,
     AccountsModule,
     StatementsModule,
+    HealthModule,
     TransactionsModule,
     ConfigModule.forRoot({
       isGlobal: true,
