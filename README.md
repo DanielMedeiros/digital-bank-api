@@ -461,6 +461,28 @@ Completed
 
 ---
 
+## ✅ Phase 17 — Health Checks
+
+### Goals
+
+- Validate application availability
+- Validate database connectivity
+- Support monitoring tools
+
+### Endpoints
+
+GET /api/v1/health
+
+GET /api/v1/health/database
+
+### Technologies
+
+- NestJS
+- Prisma
+- PostgreSQL
+
+---
+
 # Banking Features
 
 Implemented features:
@@ -587,7 +609,7 @@ GET /api/v1/statements?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
 | Unit Tests            | ✅     |
 | Integration Tests     | ✅     |
 | E2E Tests             | ✅     |
-| CI/CD                 | 🚧     |
+| CI/CD                 | ✅     |
 | AWS Deployment        | 🚧     |
 
 ---
