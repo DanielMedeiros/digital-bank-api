@@ -10,11 +10,11 @@
 ![Swagger](https://img.shields.io/badge/Swagger-OpenAPI-green)
 ![License](https://img.shields.io/badge/License-MIT-brightgreen)
 
-A modern Digital Banking API built with NestJS, TypeScript, PostgreSQL, Prisma, and Docker.
+A production-oriented Digital Banking API built with NestJS, TypeScript, PostgreSQL, Prisma, Docker, and modern observability practices.
 
-This project simulates the backend core of a digital bank, implementing real-world financial features such as user registration, JWT authentication, bank accounts, deposits, withdrawals, transfers, transaction tracking, bank statements, and idempotency protection.
+This project simulates the backend core of a digital bank, implementing real-world financial features such as user registration, JWT authentication, bank accounts, deposits, withdrawals, transfers, transaction tracking, bank statements, idempotency protection, health checks, and observability metrics.
 
-The goal is to build a portfolio project that demonstrates backend engineering practices commonly found in banks, fintechs, and large-scale financial systems.
+The goal is to demonstrate backend engineering practices commonly used in banks, fintechs, and large-scale financial systems.
 
 ---
 
@@ -27,6 +27,7 @@ The goal is to build a portfolio project that demonstrates backend engineering p
 - Banking Features
 - Business Rules
 - Security
+- Observability & Monitoring
 - API Endpoints
 - API Coverage
 - Domain Model
@@ -36,12 +37,14 @@ The goal is to build a portfolio project that demonstrates backend engineering p
 - Project Setup
 - Deployment
 - Resources
+- Support
+- License
 
 ---
 
 # Overview
 
-This API was designed following modern backend development principles:
+This API was designed following modern backend engineering principles:
 
 - Clean modular architecture
 - RESTful APIs
@@ -53,7 +56,9 @@ This API was designed following modern backend development principles:
 - Idempotent operations
 - Structured logging
 - Global exception handling
-- OpenAPI Documentation
+- OpenAPI documentation
+- Health checks
+- Metrics & observability
 
 ---
 
@@ -66,7 +71,12 @@ src/
 │   ├── users/
 │   ├── accounts/
 │   ├── transactions/
-│   └── statements/
+│   ├── statements/
+│   ├── health/
+│   └── metrics/
+│
+├── common/
+│   └── middleware/
 │
 ├── shared/
 │   ├── database/
@@ -112,6 +122,7 @@ test/
 
 - Docker
 - Docker Compose
+- GitHub Actions
 
 ## Validation
 
@@ -123,13 +134,16 @@ test/
 - Swagger
 - OpenAPI
 
-## Logging
+## Logging & Monitoring
 
 - Pino Logger
+- Prometheus Metrics
+- Request Correlation
 
 ## Testing
 
 - Jest
+- Supertest
 - Nest Testing Module
 
 ---
@@ -138,348 +152,122 @@ test/
 
 ## ✅ Phase 1 — Repository Setup
 
-### Goals
-
-- Create GitHub repository
-- Configure Git workflow
-- Create initial README
-- Configure MIT License
-
-### Branch Strategy
-
-```text
-main
-develop
-feature/*
-```
-
----
+- GitHub repository
+- Git workflow
+- README
+- MIT License
 
 ## ✅ Phase 2 — NestJS Setup
 
-### Goals
-
-- Create NestJS application
-- Configure TypeScript
-- Configure ESLint
-- Configure Prettier
-- Configure environment variables
-
----
+- NestJS app
+- TypeScript
+- ESLint
+- Prettier
+- Environment config
 
 ## ✅ Phase 3 — Docker & PostgreSQL
 
-### Goals
-
-- Configure Docker Compose
-- Create PostgreSQL container
-- Configure Prisma
-- Configure database connection
-
----
+- Docker Compose
+- PostgreSQL container
+- Prisma setup
 
 ## ✅ Phase 4 — API Foundation
 
-### Goals
-
-- Global ValidationPipe
-- Global Exception Filter
-- Structured Logging
-- Security Configuration
-- API Versioning
-
-### Deliverables
-
-- API versioning
+- ValidationPipe
+- Exception Filter
 - Pino Logger
 - Helmet
 - CORS
-- Global exception handling
-
-### API Prefix
-
-```text
-/api/v1
-```
-
----
+- Versioning
 
 ## ✅ Phase 5 — User Registration
 
-### Goals
-
-- Create User entity
-- User registration endpoint
+- User entity
+- Registration endpoint
 - Password hashing
-- Email uniqueness validation
-
----
+- Email uniqueness
 
 ## ✅ Phase 6 — JWT Authentication
 
-### Goals
-
-- User login
-- JWT authentication
-- Protected routes
-
-### Implementations
-
-- JwtStrategy
-- JwtAuthGuard
-- Passport JWT
-
----
+- Login
+- JWT Strategy
+- Guards
 
 ## ✅ Phase 7 — Bank Accounts
 
-### Goals
-
-- Create Account entity
-- Automatically create account when user registers
-- Associate User and Account
-
----
+- Account entity
+- Auto account creation
+- User ↔ Account relation
 
 ## ✅ Phase 8 — Deposits & Withdrawals
 
-### Goals
-
-- Deposit money
-- Withdraw money
+- Deposit
+- Withdraw
 - Balance validation
-
-### Features
-
-- Positive value validation
-- Insufficient balance protection
-
----
 
 ## ✅ Phase 9 — Account Transfers
 
-### Goals
-
-- Transfer money between accounts
-- Register transfer history
-- Guarantee transactional consistency
-
-### Features
-
+- Transfers
 - Atomic transactions
-- Automatic rollback
-- Balance validation
-- Destination account validation
+- Rollback support
 
----
+## ✅ Phase 10 — Idempotency
 
-## ✅ Phase 10 — Idempotency & Financial Consistency
-
-### Goals
-
-- Prevent duplicated transfers
-- Guarantee request consistency
-- Improve financial reliability
-
-### Features
-
-- Idempotency-Key support
-- Reuse previous responses
-- Prevent duplicate processing
-
----
+- Idempotency-Key
+- Duplicate prevention
 
 ## ✅ Phase 10.1 — Transaction Standardization
 
-### Goals
+- Transaction enum
+- Unified history
 
-- Standardize all financial operations
-- Create a unified transaction history
-- Prepare the system for bank statements
+## ✅ Phase 11 — Bank Statements
 
-### Features
+- Statement endpoint
+- Filters by date
+- Full history
 
-- TransactionType enum
-- DEPOSIT transactions
-- WITHDRAW transactions
-- TRANSFER transactions
+## ✅ Phase 12 — Swagger
 
-### Benefits
-
-- Unified transaction history
-- Easier auditing
-- Foundation for statements and reporting
-
----
-
-## ✅ Phase 11 — Bank Statement & Transaction History
-
-### Goals
-
-- Account statement
-- Transaction history
-- Date filtering
-- Incoming and outgoing operations
-
-### Features
-
-- Full transaction history
-- Ordered by date
-- Date range filtering
-- Deposit, Withdraw and Transfer support
-
-### Endpoints
-
-```http
-GET /api/v1/statements
-
-GET /api/v1/statements?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
-```
-
----
-
-## ✅ Phase 12 — Swagger / OpenAPI Documentation
-
-### Goals
-
-- OpenAPI Documentation
-- Swagger UI
-- JWT Authorization Support
-
-### Endpoint
-
-```text
-/api/docs
-```
-
-### Features
-
-- Interactive API documentation
-- JWT Authentication
-- Request examples
-- DTO documentation
-
----
+- OpenAPI
+- Interactive docs
+- JWT support
 
 ## ✅ Phase 13 — Unit Tests
 
-### Goals
-
-- Validate business rules
-- Improve code reliability
-- Prevent regressions
-
-### Technologies
-
-- Jest
-- NestJS Testing Module
-
-### Covered Services
-
-- AuthService
-- AccountsService
-- TransactionsService
-- StatementsService
-
----
+- Service layer tests
 
 ## ✅ Phase 14 — Integration Tests
 
-### Goals
+- Full module testing
 
-- Validate complete application flows
-- Verify database integration
-- Test authentication and financial operations
+## ✅ Phase 15 — E2E Tests
 
-### Technologies
+- Full banking flow
 
-- Jest
-- Supertest
-- PostgreSQL Test Database
-
-### Covered Flows
-
-- Register User → Login
-- Deposit → Balance Validation
-- Transfer → Balance Validation
-- Statement Generation
-
----
-
-## ✅ Phase 15 — End-to-End Tests
-
-### Goals
-
-- Validate complete banking flows
-- Simulate real client interactions
-- Ensure application reliability
-
-### Technologies
-
-- Jest
-- Supertest
-- PostgreSQL
-
-### Covered Flows
-
-- Register User
-- Login
-- Deposit
-- Transfer
-- Statement
-
-### Status
-
-Completed
-
----
-
-## ✅ Phase 16 — GitHub Actions CI/CD
-
-### Goals
-
-- Automate quality checks
-- Validate code before merging
-- Prevent regressions
-
-### Pipeline
-
-- Install Dependencies
-- Prisma Generate
-- Database Migration
-- Lint
-- Unit Tests
-- Integration Tests
-- E2E Tests
-- Build
-
-### Technologies
+## ✅ Phase 16 — CI/CD
 
 - GitHub Actions
-- PostgreSQL
-- Prisma
-
----
+- Lint
+- Tests
+- Build
 
 ## ✅ Phase 17 — Health Checks
 
-### Goals
+Endpoints:
 
-- Validate application availability
-- Validate database connectivity
-- Support monitoring tools
+- GET /api/v1/health
+- GET /api/v1/health/database
 
-### Endpoints
+## ✅ Phase 18 — Observability & Metrics
 
-GET /api/v1/health
+Features:
 
-GET /api/v1/health/database
-
-### Technologies
-
-- NestJS
-- Prisma
-- PostgreSQL
+- Request ID
+- Structured logging
+- Prometheus metrics
+- Business metrics
+- Latency metrics
 
 ---
 
@@ -491,17 +279,15 @@ Implemented features:
 - JWT Authentication
 - Password Hashing
 - Automatic Bank Account Creation
-- Balance Management
 - Deposits
 - Withdrawals
 - Transfers
 - Transaction History
 - Bank Statements
 - Idempotency Protection
-- OpenAPI Documentation
-- Global Error Handling
-- Structured Logging
-- Unit Tests
+- Swagger Documentation
+- Health Checks
+- Metrics Monitoring
 
 ---
 
@@ -509,33 +295,33 @@ Implemented features:
 
 ## Authentication
 
-- Users authenticate using JWT.
-- Protected endpoints require a valid token.
+- Users authenticate using JWT
+- Protected endpoints require valid token
 
 ## Accounts
 
-- Each user owns exactly one bank account.
-- Accounts are automatically created upon registration.
+- Each user owns exactly one account
+- Accounts are automatically created upon registration
 
 ## Deposits
 
-- Amount must be greater than zero.
+- Amount must be greater than zero
 
 ## Withdrawals
 
-- Amount must be greater than zero.
-- Balance cannot become negative.
+- Amount must be greater than zero
+- Balance cannot become negative
 
 ## Transfers
 
-- Destination account must exist.
-- Users cannot transfer to their own account.
-- Origin account must have sufficient balance.
+- Destination account must exist
+- Users cannot transfer to their own account
+- Origin account must have sufficient balance
 
 ## Idempotency
 
-- Transfers support idempotent requests.
-- Repeated requests with the same key return the previous response.
+- Same key = same response
+- Duplicate transfers are prevented
 
 ---
 
@@ -545,12 +331,44 @@ Implemented security mechanisms:
 
 - JWT Authentication
 - Password hashing with bcrypt
-- Route protection with Guards
+- Route Guards
 - ValidationPipe
-- Helmet
+- Input validation via DTOs
+- Helmet security headers
 - CORS
 - Global exception handling
 - Idempotency protection
+- Request correlation via Request ID
+
+---
+
+# Observability & Monitoring
+
+Implemented observability features:
+
+- Structured JSON logs
+- Request correlation
+- Prometheus metrics
+- Business counters
+- Latency tracking
+- Health checks
+
+Metrics examples:
+
+```text
+http_requests_total
+bank_transfers_total
+bank_deposits_total
+bank_withdrawals_total
+```
+
+Endpoints:
+
+```http
+GET /metrics
+GET /api/v1/health
+GET /api/v1/health/database
+```
 
 ---
 
@@ -566,7 +384,6 @@ POST /api/v1/auth/login
 
 ```http
 POST /api/v1/users
-
 GET /api/v1/users/me
 ```
 
@@ -574,9 +391,7 @@ GET /api/v1/users/me
 
 ```http
 GET /api/v1/accounts/me
-
 POST /api/v1/accounts/deposit
-
 POST /api/v1/accounts/withdraw
 ```
 
@@ -590,27 +405,41 @@ POST /api/v1/transactions/transfer
 
 ```http
 GET /api/v1/statements
-
 GET /api/v1/statements?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
+```
+
+## Health
+
+```http
+GET /api/v1/health
+GET /api/v1/health/database
+```
+
+## Metrics
+
+```http
+GET /metrics
 ```
 
 ---
 
 # API Coverage
 
-| Module                | Status |
-| --------------------- | ------ |
-| Users                 | ✅     |
-| Authentication        | ✅     |
-| Accounts              | ✅     |
-| Transactions          | ✅     |
-| Statements            | ✅     |
-| Swagger Documentation | ✅     |
-| Unit Tests            | ✅     |
-| Integration Tests     | ✅     |
-| E2E Tests             | ✅     |
-| CI/CD                 | ✅     |
-| AWS Deployment        | 🚧     |
+| Module            | Status |
+| ----------------- | ------ |
+| Users             | ✅     |
+| Authentication    | ✅     |
+| Accounts          | ✅     |
+| Transactions      | ✅     |
+| Statements        | ✅     |
+| Swagger           | ✅     |
+| Unit Tests        | ✅     |
+| Integration Tests | ✅     |
+| E2E Tests         | ✅     |
+| CI/CD             | ✅     |
+| Health Checks     | ✅     |
+| Observability     | ✅     |
+| AWS Deployment    | 🚧     |
 
 ---
 
@@ -618,11 +447,8 @@ GET /api/v1/statements?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
 
 ```text
 User
- │
  └── Account
-      │
       ├── Transactions (Outgoing)
-      │
       └── Transactions (Incoming)
 
 Transaction
@@ -637,75 +463,71 @@ IdempotencyKey
 
 # Database Models
 
-Current entities:
+Entities:
 
-```text
-User
-Account
-Transaction
-IdempotencyKey
-```
+- User
+- Account
+- Transaction
+- IdempotencyKey
 
 Relationships:
 
 ```text
 User 1 ─── 1 Account
-
-Account 1 ─── N Transactions (Outgoing)
-
-Account 1 ─── N Transactions (Incoming)
-```
-
-Transaction Types:
-
-```text
-DEPOSIT
-WITHDRAW
-TRANSFER
+Account 1 ─── N Transactions
 ```
 
 ---
 
 # Testing Strategy
 
-Current coverage:
+Coverage includes:
 
-- Unit Tests
-
-Covered services:
+## Unit Tests
 
 - AuthService
 - AccountsService
 - TransactionsService
 - StatementsService
 
-Planned:
+## Integration Tests
 
-- Integration Tests
-- E2E Tests
+- Auth flow
+- Accounts flow
+- Transfers
+- Statements
+- Health
+
+## E2E Tests
+
+- Register
+- Login
+- Deposit
+- Transfer
+- Statement
 
 Testing tools:
 
 - Jest
-- NestJS Testing Module
+- Supertest
+- Nest Testing Module
 
 ---
 
 # Upcoming Features
 
-Planned next phases:
+Planned future phases:
 
-- Integration Tests
-- E2E Tests
-- GitHub Actions CI/CD
-- Health Checks
-- Metrics Monitoring
-- OpenTelemetry
+- OpenTelemetry Distributed Tracing
+- Grafana Dashboards
 - Docker Production Setup
 - AWS Deployment
-- Clean Architecture Refactoring
+- Kubernetes
+- Redis Caching
+- Kafka Event Streaming
+- Clean Architecture Refactor
 - Event-Driven Architecture
-- Financial Ledger System
+- Double-entry Ledger System
 
 ---
 
@@ -717,23 +539,17 @@ Install dependencies:
 npm install
 ```
 
----
-
-# Environment Variables
-
-Create a `.env` file:
+Environment variables:
 
 ```env
 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/digital_bank"
-
 JWT_SECRET="your-secret-key"
-
 JWT_EXPIRES_IN="1d"
 ```
 
 ---
 
-# Compile and Run the Project
+# Compile and Run
 
 ## Development
 
@@ -745,7 +561,6 @@ npm run start:dev
 
 ```bash
 npm run build
-
 npm run start:prod
 ```
 
@@ -753,16 +568,22 @@ npm run start:prod
 
 # Run Tests
 
-## Unit Tests
+## Unit
 
 ```bash
 npm run test
 ```
 
-## Watch Mode
+## Integration
 
 ```bash
-npm run test:watch
+npm run test:integration
+```
+
+## E2E
+
+```bash
+npm run test:e2e
 ```
 
 ## Coverage
@@ -775,70 +596,43 @@ npm run test:cov
 
 # Deployment
 
-Deployment section will be completed in future phases.
-
-Target platforms:
+Planned target platforms:
 
 - Railway
 - Render
-- AWS
-- Docker Containers
-- Kubernetes (future)
+- AWS ECS
+- Docker
+- Kubernetes
 
 ---
 
 # Resources
 
-Official documentation:
+Recommended references:
 
-- NestJS
-- Prisma
-- PostgreSQL
-- Docker
-- Passport
-- JWT
-- Swagger
-
-Useful references:
-
+- NestJS Docs
+- Prisma Docs
+- OWASP API Security
+- OpenAPI Specification
 - Clean Architecture
 - Domain-Driven Design
-- OWASP API Security
-- Twelve-Factor App
-- OpenAPI Specification
-- Financial Systems Design
+- Designing Data-Intensive Applications
 
 ---
 
 # Support
 
-If you find a bug or have a suggestion:
+If you find a bug or have suggestions:
 
-1. Open an Issue
+1. Open an issue
 2. Describe the problem
 3. Include reproduction steps
 4. Attach logs if necessary
 
 ---
 
-# Stay in Touch
-
-### LinkedIn
-
-Add your LinkedIn profile here.
-
-### GitHub
-
-Add your GitHub profile here.
-
----
-
 # License
 
 This project is licensed under the MIT License.
-
-Feel free to use, study, and improve it.
-
----
 
 Built with ❤️ using NestJS, PostgreSQL, Prisma, TypeScript, and modern backend engineering practices.

@@ -6,6 +6,7 @@ import {
 
 import { Prisma, TransactionType } from '@prisma/client';
 import { PrismaService } from '@/shared/database/prisma/prisma.service';
+import { transferCounter } from '../metrics/metrics.service';
 
 @Injectable()
 export class TransactionsService {
@@ -110,6 +111,8 @@ export class TransactionsService {
 
       return responseData;
     });
+
+    transferCounter.inc();
 
     return transaction;
   }

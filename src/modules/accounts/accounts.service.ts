@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { Prisma, TransactionType } from '@prisma/client';
 import { PrismaService } from '@/shared/database/prisma/prisma.service';
+import { depositCounter, withdrawCounter } from '../metrics/metrics.service';
 
 @Injectable()
 export class AccountsService {
@@ -57,6 +58,8 @@ export class AccountsService {
       },
     });
 
+    depositCounter.inc();
+
     return updatedAccount;
   }
 
@@ -98,6 +101,8 @@ export class AccountsService {
         amount: new Prisma.Decimal(amount),
       },
     });
+
+    withdrawCounter.inc();
 
     return updatedAccount;
   }
