@@ -15,15 +15,15 @@ import { MetricsInterceptor } from './modules/metrics/metrics.interceptor';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     AuthModule,
     MetricsModule,
     AccountsModule,
     StatementsModule,
     HealthModule,
     TransactionsModule,
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
 
     LoggerModule.forRoot({
       pinoHttp: {

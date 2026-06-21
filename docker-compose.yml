@@ -1,34 +1,35 @@
+version: '3.9'
+
 services:
   postgres:
     image: postgres:16
     container_name: digital-bank-postgres
-
+    restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: digital_bank
-
     ports:
       - '5432:5432'
 
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-    restart: always
-
-  postgres-test:
-    image: postgres:16
-
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: digital_bank_test
-
+  prometheus:
+    image: prom/prometheus
+    container_name: digital-bank-prometheus
     ports:
-      - '5433:5432'
+      - '9090:9090'
+    volumes:
+      - './infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml'
 
-  ports:
-    - '5433:5432'
+  grafana:
+    image: grafana/grafana
+    container_name: digital-bank-grafana
+    ports:
+      - '3001:3000'
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    volumes:
+      - grafana-storage:/var/lib/grafana
 
 volumes:
-  postgres_data:
+  grafana-storage:
